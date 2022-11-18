@@ -7,6 +7,8 @@ const server = http.createServer(app);
 const formidable = require('formidable');
 const fs = require('fs').promises;
 const gcpService = require( "./service/gcp" );
+const port = process.env.PORT || 8080;
+
 
 const mimeTypes = {
   '.ico': 'image/x-icon',
@@ -178,7 +180,7 @@ app.use((error, req, res, next) => {
 });
 
 
-server.listen(8000);
+server.listen(port);
 
 
 
