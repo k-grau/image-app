@@ -1,0 +1,79 @@
+async function renameUserNameKey() {
+  await squeaks.updateMany( {}, { $rename: { "name": "username" } } )
+}
+
+
+
+async function deleteUserByPassword(password) {
+  await credentials.remove({"password" : password});
+}
+
+
+
+async function deleteSqueakBySqueak(squeak) {
+  await squeaks.remove({"squeak" : squeak});
+}
+
+
+
+async function deletAllusers() {
+  await credentials.remove({})
+}
+
+
+
+async function deleteAllSessions() {
+  await sessions.remove({})
+} 
+
+
+
+async function insertBaseUsers() {
+  await credentials.insertOne({ username : 'A.Merkel',
+    password : 'tyskland'});
+
+  await credentials.insertOne({ username : 'O.Palme',
+    password : 'sossar'});
+
+  await credentials.insertOne({ username : 'F.Reinfeldt',
+    password : 'moderater'});
+
+  await credentials.insertOne({ username : 'D.Trump',
+    password : 'bighands'});
+}
+
+async function changePasswords() {
+  await credentials.updateOne({ username : 'D.Trump',
+    password : 'bighands'});
+
+
+  await credentials.insertOne({ username : 'A.Merkel',
+    password : 'tyskland'});
+
+  await credentials.insertOne({ username : 'O.Palme',
+    password : 'sossar'});
+
+  await credentials.insertOne({ username : 'F.Reinfeldt',
+    password : 'moderater'});
+
+  await credentials.insertOne({ username : 'D.Trump',
+    password : 'bighands'});
+}
+
+async function changePasswords() {
+    const trumpPassword = await promiseHash('littlehands', 500)
+    await credentials.updateOne({ username : 'D.Trump'}, {$set:{password: trumpPassword}});
+
+    const palmePassword = await promiseHash('supersosse', 500)
+    await credentials.updateOne({ username : 'O.Palme'}, {$set:{password: palmePassword}});
+
+    const merkelPassword = await promiseHash('finatyskland', 500)
+    await credentials.updateOne({ username : 'A.Merkel'}, {$set:{password: merkelPassword}});
+
+    const reinfeldtPassword = await promiseHash('meramoderater', 500)
+    await credentials.updateOne({ username : 'F.Reinfeldt'}, {$set:{password: reinfeldtPassword}});
+
+    const zeljenskyPassword = await promiseHash('frihetukraina', 500)
+    await credentials.updateOne({ username : 'V.Zeljensky'}, {$set:{password: zeljenskyPassword}});
+ 
+  }
