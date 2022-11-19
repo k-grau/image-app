@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const formidable = require('formidable');
 const fs = require('fs').promises;
 const gcpService = require( "./service/gcp" );
+const imageDir = path.resolve("./public/img")
 const port = process.env.PORT || 8080;
 
 
@@ -83,6 +84,15 @@ const parseLabels = (labels) => {
   return parsedLabels;
 }
 
+
+const clearImageDir = async (fileToKeep) => {
+  for (const file of await fs.readdir(imageDir)) {
+    if(file !== fileToKeep && file !== 'placeholder-img.jpg') {
+      await fs.unlink(path.join(imageDir, '/' + file));
+    }
+  }
+}
+
 const currentImage = {path: "", labels: {labels : []}, topLabels: []};
 
 app.set('views', __dirname + '/views');
@@ -109,6 +119,7 @@ app.get('/', async (req, res, next) => {
   currentImage.labels = {labels: []};
   currentImage.fileName = "";
   currentImage.topLabels = "";
+  clearImageDir(fileName);
 
   res.setHeader('Content-Type', mimeTypes['.html']);
   res.status(200).render('main', {
@@ -118,6 +129,7 @@ app.get('/', async (req, res, next) => {
     labels: labels
   });
 });
+
 
 
 
@@ -142,7 +154,7 @@ app.post('/image', (req, res, next) => {
       }
     });
 
-    const filePath = path.resolve("./public/img/" + files.image.originalFilename)
+    const filePath = imageDir + '/' + files.image.originalFilename;
     
     await fs.writeFile(filePath, rawData, err => {
       if(err) {
