@@ -72,6 +72,7 @@ const getTopLabels = (labels) => {
 
 }
 
+
 const parseLabels = (labels) => {
   const parsedLabels = [];
  
@@ -132,9 +133,6 @@ app.get('/', async (req, res, next) => {
 
 
 
-
-
-
 app.post('/image', (req, res, next) => {
   const form = new formidable.IncomingForm();
   form.multiples = true;
@@ -176,8 +174,6 @@ app.post('/image', (req, res, next) => {
     res.redirect(302, "/")
   })
 });
-
-
 
 
 app.get('/error', (req, res) => {
