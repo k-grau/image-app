@@ -105,6 +105,11 @@ app.get('/', async (req, res, next) => {
   let labels = currentImage.labels;
   let topLabels = currentImage.topLabels ? currentImage.topLabels.join(', ') : "";
 
+  currentImage.path = '';
+  currentImage.labels = {labels: []};
+  currentImage.fileName = "";
+  currentImage.topLabels = "";
+
   res.setHeader('Content-Type', mimeTypes['.html']);
   res.status(200).render('main', {
     fileName: fileName,
